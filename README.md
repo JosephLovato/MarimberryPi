@@ -36,3 +36,6 @@ To begin, download all dependencies from above. Once hardware is setup, navigate
 `python3 Driver.py`
 
 3 SF2 sound fonts are included. To change these, visit a sound font library and make sure to download only .sf2 files. Then, change the file name in Drive.py
+
+## Other Credits
+- SPI Utility https://pimylifeup.com/raspberry-pi-adc/

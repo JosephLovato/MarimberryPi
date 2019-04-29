@@ -24,7 +24,7 @@ plt.ioff()
 class Driver:
     
     #
-    # Driver Constructor: initializes all instance varables and sets up GPIO settings
+    # Driver Constructor: initializes all instance variables and sets up GPIO settings
     #
     def __init__(self):
         #Instantiate all instance variables
@@ -45,7 +45,7 @@ class Driver:
             GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) 
     
     #
-    # Plays the the fluid synth note given myArgs. Also flashes LED
+    # Plays the fluid synth note given myArgs. Also flashes LED
     # @param: int myArgs - argument defined by the threading class (note to be played 0-7)
     #
     def threadedPlayNote(self, myArgs):
@@ -84,8 +84,8 @@ class Driver:
         return su.readADC(1, self.potChannel)
     
     #
-    # Plays notes, given the current sample of current and previous values from thec Force Sensitve Resistors
-    # @param: List notes - sample of all Force Sensitive Resistors from the sampleKeys method
+    # Plays notes given the sample of current and previous values from the Force Sensitive Resistors
+    # @param: List notes - sample of all Force Sensitive Resistors from the sampleKeys function
     #
     def playNotes(self, notes):
         #for every note
@@ -106,19 +106,22 @@ class Driver:
             
     #
     # Main function to play marimba. Loops until quit by keyboard interrupt. 
-    # Checks instrument button pressed, octave value, sampels keys, samples note and plays notes
+    # Checks instrument button pressed, octave value, samples keys, and plays notes
     #
     def play(self):
         print("play")
+        #Continuously:
         while True:
+            #Check if instrument has been changed with button
             for pin in instruments:
                 if GPIO.input(pin):
                     sfid = fs.sfload(instruments[pin])
                     fs.program_select(0, sfid, 0, 0)
                     
-            #Check all input setting sensors
-            self.octave = (int) (self.samplePot() / 170) #check octave with potentiometer, mapped 1-1023 --> 0 - 6
-            
+            #Check potentiometer for octave
+            self.octave = (int) (self.samplePot() / 170) #mapped 1-1023 --> 0 - 6
+
+            #sample and play notes
             notes = self.sampleKeys(5)
             self.playNotes(notes)
     
@@ -133,7 +136,10 @@ class Driver:
             for pin in self.ledPins:
                 GPIO.output(pin, False)
                 time.sleep(0.12 - 0.04*i)
-                
+
+    #
+    # Displays a graph of analog values when FSR is hit
+    #
     def calculateThreshold(self):
         #Run user prompts
         print("Calculate Threshold...")
@@ -160,7 +166,7 @@ class Driver:
         plt.title('Force Sensitive Resistor Threshold Data')
         plt.xlabel('Seconds')
         plt.ylabel('FSR Analog Value')
-        plt.savefig("plot-2.png")
+        plt.savefig("plot-FSR-data.png")
         plt.close(fig)
         print("done")
             
@@ -172,10 +178,9 @@ if __name__ == "__main__":
         print("Initializing...")
         time.sleep(1)
         driver = Driver()
+        driver.calculateThreshold()
         driver.ledStartup()
         driver.play()
-        
-
 
     except(KeyboardInterrupt, SystemExit):
         print("Interrupt!")
@@ -183,4 +188,4 @@ if __name__ == "__main__":
     finally:
         print("Done!")
         GPIO.cleanup();  # close GPIO
-        fs.delete()
+        fs.delete() # close Fluid Synth object

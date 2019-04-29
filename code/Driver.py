@@ -18,7 +18,7 @@ fs.program_select(0, sfid, 0, 0)
 NOTES = [24, 26, 28, 29, 31, 33, 35, 36]
 instruments = { 17: "R-marmba.sf2", 16: "Craftsynth.sf2", 13: "Grandpno.sf2" }
 
-#misc
+#matplotlib turn off show plots
 plt.ioff()
 
 class Driver:
@@ -172,7 +172,6 @@ if __name__ == "__main__":
         print("Initializing...")
         time.sleep(1)
         driver = Driver()
-        driver.calculateThreshold()
         driver.ledStartup()
         driver.play()
         

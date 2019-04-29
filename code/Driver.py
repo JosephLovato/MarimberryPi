@@ -1,3 +1,10 @@
+#
+# MarimberryPi: Driver.py
+# Main Driver for MarimberryPi Function
+#
+# Joey Lovato, Kara McDonough
+# 4/29/19
+#
 import RPi.GPIO as GPIO
 import spiUtilsExt as su
 import time

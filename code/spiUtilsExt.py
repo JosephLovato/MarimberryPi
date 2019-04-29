@@ -1,14 +1,14 @@
 # Code Adapated from https://pimylifeup.com/raspberry-pi-adc/
 #
+# MarimberryPi: spiUtilsExt.py
 # Used to read in Analog values from 2 MCP3008 ADCs
 #
 # Joey Lovato, Kara McDonough
-# 4/16/29
+# 4/16/19
 #
 
 import spidev
 import time
-
 
 def readADC(chip, channel):
     if chip > 1 or chip < 0:
